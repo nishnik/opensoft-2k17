@@ -7,9 +7,9 @@
     "mineWhenNeeded": true,
     "nodiscover": true,
     "maxpeers": 0,
-    "rpcHost": "localhost",
+    "rpcHost": "10.145.137.74",
     "rpcPort": 8545,
-    "rpcCorsDomain": "http://localhost:8000",
+    "rpcCorsDomain": "http://10.145.137.74:8000/",
     "account": {
       "password": "config/development/password"
     }
