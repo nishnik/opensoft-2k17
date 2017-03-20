@@ -1,8 +1,8 @@
 {
   "default": {
-    "gas": "auto",
+    "gas": 900000,
     "contracts": {
-    	"SimpleStorage": {
+    	"EthPic": {
         "args": [
           "100"
         ]

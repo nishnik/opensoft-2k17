@@ -1,0 +1,4 @@
+ethpic/.embark/
+ethpic/dist/
+ethpic/.node*
+ethpic/chains.json
