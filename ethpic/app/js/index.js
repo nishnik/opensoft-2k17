@@ -108,6 +108,7 @@ $(document).ready(function() {
     addToLog("#blockchain", "SimpleStorage.get()");
   });
 
+
   EmbarkJS.Storage.setProvider('ipfs',{server: 'localhost', port: '5001'});
 
   $("#storage button.setIpfsText").click(function() {
