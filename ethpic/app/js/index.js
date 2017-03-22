@@ -9,88 +9,43 @@ var addToLog = function(id, txt) {
 // ===========================
 
 $(document).ready(function() {
-  $("button.userSet").click(function() {
+  $("button.dataSet").click(function() {
     var topic_value = $(".inputTopic").val();
     addToLog("#blockchain", "value(" + topic_value + ")");
-
     var input_file = $(".userUploadFile");
     EmbarkJS.Storage.uploadFile(input_file).then(function(input_file_hash) {
       console.log("topic_value", topic_value);
       console.log("input_file_hash", input_file_hash);
       $("span.userFileIpfsHash").html(input_file_hash);
       $("input.fileIpfsHash").val(input_file_hash);
-      EthPic.get_topic(topic_value).then(function(topic_hash_db) {
-        if (topic_hash_db == "Not there") {
-          topicfile = '"' + input_file_hash + '"'; // this should be a list
-          EmbarkJS.Storage.saveText(topicfile).then(function(topicfile_hash) {
-            console.log("topicfile_hash", topicfile_hash);
-
-          EthPic.get_user().then(function(user_hash_db) {
-            if (user_hash_db == "Not there") {
-              userfile = '"' + input_file_hash + '"';
-              EmbarkJS.Storage.saveText(userfile).then(function(userfile_hash) {
-                console.log("userfile_hash", userfile_hash);
-                EthPic.add_data(userfile_hash, topic_value, topicfile_hash, {gas: 1000000});
-              });
-            }
-            else {
-              
-              EmbarkJS.Storage.get(user_hash_db).then(function(userfile_hash_db) {
-                console.log("user content", userfile_hash_db)
-                userfile = userfile_hash_db + ", " + '"' + input_file_hash + '"';
-                EmbarkJS.Storage.saveText(userfile).then(function(userfile_hash) {
-                  console.log("userfile_hash", userfile_hash);
-                  EthPic.add_data(userfile_hash, topic_value, topicfile_hash, {gas: 1000000});
-                });
-              });
-            }
-          });
-            
-          });
-          
-        }
-        else {
-          // get file from ipfs
-          EmbarkJS.Storage.get(topic_hash_db).then(function(topicfile_content) {
-            console.log("topic content", topic_value, topicfile_content)
-            topicfile = topicfile_content + ", " + '"' + input_file_hash + '"'; // this should be a list
-            EmbarkJS.Storage.saveText(topicfile).then(function(topicfile_hash) {
-              console.log("topicfile_hash", topicfile_hash);
-            
-
-            EthPic.get_user().then(function(user_hash_db) {
-              if (user_hash_db == "Not there") {
-                userfile = '"' + input_file_hash + '"';
-                EmbarkJS.Storage.saveText(userfile).then(function(userfile_hash) {
-                  console.log("user_hash", userfile_hash);
-                  EthPic.add_data(userfile_hash, topic_value, topicfile_hash, {gas: 1000000});
-                });
-              }
-              else {
-                // get file from ipfs
-                EmbarkJS.Storage.get(user_hash_db).then(function(userfile_content) {
-                  console.log("user content", userfile_content)
-                  userfile = userfile_content + ", " + '"' + input_file_hash+ '"';
-                  EmbarkJS.Storage.saveText(userfile).then(function(userfile_hash) {
-                    console.log("user_hash", userfile_hash);
-                    EthPic.add_data(userfile_hash, topic_value, topicfile_hash, {gas: 1000000});
-                  });
-                });
-              }
-            });
-              // EthPic.add_data(hash, topic_value, hash_topic, {gas: 1000000});
-            });
-            
-          });
-        }
-      });
-
+      EthPic.add_data(input_file_hash, topic_value, {gas: 1050000});
     });
-
-    
-    addToLog("#storage", "EmbarkJS.Storage.uploadFile($('input[type=file]')).then(function(hash) { })");
   });
-
+  /// this is just a hack to get it working, talking about ind_user
+  var ind_user = 0;
+  $("button.userGet").click(function() {
+      EthPic.get_user(ind_user).then(function(pic_hash) {
+        console.log(pic_hash);
+      });
+      ind_user += 1;  
+  });
+  var ind_topic = 0;
+  $("button.topicGet").click(function() {
+    var topic_value = $(".inputTopic").val();
+    console.log(ind_topic);
+      EthPic.get_topic(topic_value, ind_topic).then(function(pic_hash) {
+        console.log(pic_hash);
+      });
+      ind_topic += 1;  
+  });
+  $("button.photoDel").click(function() {
+    var topic_value = $(".inputTopic").val();
+    var photoHash = $(".photoHash").val();
+      EthPic.del_photo(photoHash, topic_value, {gas: 1050000});
+      ind_topic = 0;
+      ind_user = 0;  
+  });
+  
 });
 
 $(document).ready(function() {
